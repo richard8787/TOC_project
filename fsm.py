@@ -5,7 +5,6 @@ from utils import send_text_message
 height = 175.8
 weight = 89.7
 bmi = 29.1
-bool_flag = True
 
 
 class TocMachine(GraphMachine):
