@@ -14,7 +14,8 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "start","error","military","female","male","tall","Military_service","Alternative","Exemption","remind"],
+    states=["user", "start", "error", "military", "female", "male", "tall",
+            "tall_ex", "Military_service", "Alternative", "Exemption", "remind"],
     transitions=[
         {
             "trigger": "advance",
@@ -48,6 +49,12 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
+            "source": "male",
+            "dest": "tall_ex",
+            "conditions": "is_going_to_tall_ex",
+        },
+        {
+            "trigger": "advance",
             "source": "tall",
             "dest": "Military_service",
             "conditions": "is_going_to_Military_service",
@@ -72,7 +79,7 @@ machine = TocMachine(
         },
         {
             "trigger": "go_back",
-            "source": ["error","female","Military_service","Alternative","Exemption","remind"],
+            "source": ["error", "female", "tall_ex", "Military_service", "Alternative", "Exemption", "remind"],
             "dest": "user"
         },
     ],
@@ -123,7 +130,8 @@ def callback():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Invalid input! please try again")
+            send_text_message(event.reply_token,
+                              "Invalid input! please try again")
 
     return "OK"
 
