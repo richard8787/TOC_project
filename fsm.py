@@ -67,12 +67,14 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text.lower() == "remind"
 
+
+# on enter function
+
     def on_enter_start(self, event):
         print("I'm entering start")
         reply_token = event.reply_token
         send_text_message(
             reply_token, "Start! please choose the mode \n1. Enter military\n2. Enter remind")
-# mode military
 
     def on_enter_military(self, event):
         print("I'm entering military")
@@ -124,17 +126,10 @@ class TocMachine(GraphMachine):
         send_text_message(
             reply_token, "CONGRATULATIONS!! You are exemption from military service\nend of military mode, please enter start")
         self.go_back()
-# mode military end
 
     def on_enter_remind(self, event):
         print("I'm entering remind")
         reply_token = event.reply_token
         send_text_message(
             reply_token, "The weather is cold, put some more clothes to keep yourself warm.\nend of remind mode, please enter start")
-        self.go_back()
-
-    def on_enter_error(self, event):
-        print("I'm entering error")
-        reply_token = event.reply_token
-        send_text_message(reply_token, "error please try again")
         self.go_back()
