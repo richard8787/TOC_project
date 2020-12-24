@@ -6,7 +6,8 @@ A Line bot based on a finite state machine
 
 ## Featutes
 * to check whether do the mandatory military service or not
-* to give something to remind you
+* take some message to remind you
+* cheer you up by sending you some image 
 
 
 ## Finite State Machine
