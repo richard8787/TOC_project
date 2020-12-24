@@ -8,14 +8,14 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 from fsm import TocMachine
-from utils import send_text_message
+from utils import send_text_message, send_image_message
 
 load_dotenv()
 
 
 machine = TocMachine(
     states=["user", "start", "military", "female", "male", "tall",
-            "tall_ex", "Military_service", "Alternative", "Exemption", "remind"],
+            "tall_ex", "Military_service", "Alternative", "Exemption", "remind", "cheerup"],
     transitions=[
         {
             "trigger": "advance",
@@ -78,8 +78,14 @@ machine = TocMachine(
             "conditions": "is_going_to_remind",
         },
         {
+            "trigger": "advance",
+            "source": "start",
+            "dest": "cheerup",
+            "conditions": "is_going_to_cheerup",
+        },
+        {
             "trigger": "go_back",
-            "source": ["error", "female", "tall_ex", "Military_service", "Alternative", "Exemption", "remind"],
+            "source": ["female", "tall_ex", "Military_service", "Alternative", "Exemption", "remind", "cheerup"],
             "dest": "user"
         },
     ],
@@ -173,5 +179,6 @@ def show_fsm():
 
 
 if __name__ == "__main__":
+    machine.get_graph().draw("fsm.png", prog="dot", format="png")
     port = os.environ.get("PORT", 8000)
     app.run(host="0.0.0.0", port=port, debug=True)

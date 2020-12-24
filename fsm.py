@@ -1,10 +1,24 @@
 from transitions.extensions import GraphMachine
 
-from utils import send_text_message
+from utils import send_text_message, send_image_message
+import random
 
 height = 175.8
 weight = 89.7
 bmi = 29.1
+remind_data = [
+    "The weather is cold, put some more clothes to keep yourself warm.\nend of remind mode, please enter start",
+    "It's cold out, make sure you're warm.\nend of remind mode, please enter start",
+    "The weather is cold please much adds clothes.\nend of remind mode, please enter start",
+    "It's getting cold outside, keep yourself warm.\nend of remind mode, please enter start",
+    "The weather became cold, remembering more a clothes.\nend of remind mode, please enter start"
+]
+cheerup_data = [
+    "https://i.imgur.com/qAJQbJo.jpg",
+    "https://i.imgur.com/i07HQNi.jpg",
+    "https://i.imgur.com/b886Q2g.jpg",
+    "https://i.imgur.com/dtXebGA.jpg",
+]
 
 
 class TocMachine(GraphMachine):
@@ -67,14 +81,19 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text.lower() == "remind"
 
+    def is_going_to_cheerup(self, event):
+        text = event.message.text
+        return text.lower() == "cheerup"
+
 
 # on enter function
+
 
     def on_enter_start(self, event):
         print("I'm entering start")
         reply_token = event.reply_token
         send_text_message(
-            reply_token, "Start! please choose the mode \n1. Enter military\n2. Enter remind")
+            reply_token, "Start! please choose the mode \n1. Enter military\n2. Enter remind\n3. Enter cheerup")
 
     def on_enter_military(self, event):
         print("I'm entering military")
@@ -131,5 +150,12 @@ class TocMachine(GraphMachine):
         print("I'm entering remind")
         reply_token = event.reply_token
         send_text_message(
-            reply_token, "The weather is cold, put some more clothes to keep yourself warm.\nend of remind mode, please enter start")
+            reply_token, remind_data[random.randint(0, 4)])
+        self.go_back()
+
+    def on_enter_cheerup(self, event):
+        print("I'm entering cheerup")
+        reply_token = event.reply_token
+        send_image_message(
+            reply_token, cheerup_data[random.randint(0, 3)])
         self.go_back()
