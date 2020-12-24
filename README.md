@@ -26,10 +26,13 @@ The initial state is set to `user`.
 				* if tall is ok enter the `tall` and to check weight
 					* the get weight and check the bmi and there three condition `Military_service`, `Alternative`, `Exemption`
 						* press the correspond message and go back to `user`
-				* if tall is not to do the mandatory military service, press the message and go bact to `user`
+				* if user's height is not to do the mandatory military service, press the message and go bact to `user`
 		* remind mode
 			* press `remind` to enter the `remind`
-			* Reply : Some remind message to user
+			* Reply : random remind message to user
+		* cheerup mode
+			* press `cheerup` to enter the `cheerup`
+			* Reply : random cheerup image to user
 
 
 
